@@ -1,7 +1,8 @@
 {
     "name": "turntable-component-pages",
     "scripts": {
-        "start": "webpack serve --mode=development"
+        "start": "webpack serve --mode=development",
+        "build": "npx webpack"
     },
     "devDependencies": {
         "@babel/core": "^7.21.8",

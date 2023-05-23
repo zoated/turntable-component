@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Wheel from '@turntable-component/react';
 import './index.css'
+import TableParams from './table_params';
 
 const mock ={
     fonts:  [{
@@ -84,55 +85,15 @@ const Turntable = () => {
             <text className='turntable-component-title'>
                 转盘组件
             </text>
+            <h2>一个跨平台（React, Taro）转盘组件</h2>
             <Wheel width={width} buttons={buttons} background="https://4tune-wemore.oss-cn-beijing.aliyuncs.com/turntable/assets/images/turntable-background.png" options={mockString}
             pointer={{src: 'https://static.wemore.com/turntable/assets/images/single-pointer.png'}}
             lockTurn={lockTurn}
             setLockTurn={setLockTurn}
             afterTurn={afterTurn}
             />
-            <div className='turntable-options-wrapper'>
-                <text className='turntable-options-title'>转盘配置</text>
-                <div className='turntable-options-content'>
-                    <div className='turntable-options-item'>
-                        <div className='turntable-options-item-title'>width</div>
-                        <input className='turntable-options-item-component' type="number" onChange={onChangeWidth} value={width} min={300} max={800} />
-                    </div>
-                    <div className='turntable-options-item'>
-                        <div className='turntable-options-item-title'>buttons</div>
-                        <div>
-                            <div className='turntable-options-item-item'>
-                                <text>title：</text>
-                                <input className='turntable-options-item-component' onChange={(e) => onChangeButtons(e, 'title')} value={buttons?.title} max={4} />
-                            </div>
-                            <div className='turntable-options-item-item'>
-                                <text>fontSize：</text>
-                                <input className='turntable-options-item-component' onChange={(e) => onChangeButtons(e, 'fontSize')} value={buttons?.fontSize} max={4} />
-                            </div>
-                            <div className='turntable-options-item-item'>
-                                <text>backgroundColor：</text>
-                                <div>linear-gradient(180deg, rgba(252, 255, 105, 0) 36.72%, #FFFFFF 100%)</div>
-                            </div>
-                            <div className='turntable-options-item-item'>
-                                <text>fontColor：</text>
-                                <div>#E96E14</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='turntable-options-item'>
-                        <div className='turntable-options-item-title'>options</div>
-                        <div className='turntable-options-item-component'>string[]</div>
-                    </div>
-                    <div className='turntable-options-item'>
-                        <div className='turntable-options-item-title'>background</div>
-                        <div className='turntable-options-item-component'>string</div>
-                    </div>
-                    <div className='turntable-options-item'>
-                        <div className='turntable-options-item-title'>afterTurn</div>
-                        <div className='turntable-options-item-component'>{`(resIndex: number) => void`}</div>
-                    </div>
-                </div>
-            </div>
-          </div>
+            <TableParams />
+        </div>
     )
 }
 

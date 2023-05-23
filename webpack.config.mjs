@@ -1,7 +1,6 @@
 import { resolve } from 'node:path';
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 const target = 'browserslist:browserslist config, not maintained node versions';
