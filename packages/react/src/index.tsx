@@ -1,61 +1,63 @@
-import React, {useRef, useState} from 'react'
+import React, {useMemo, useRef, useState} from 'react'
+import CommonTurntable from '../../common/src/index'
 import './index.css'
 
+type TextProps ={
+  title: string,
+  fontColor?: string
+  backgroundColor?: string
+  fontSize?: number
+  fontWeight?: number
+  selectedColor?: string
+}
+
+type ImageProps = {
+  src: string
+  top?: number
+  width?: number
+  height?: number
+}
 type BaseWheelProps = {
   width: number
   padding?: number
   background?: string
-  buttons?: {
-    title: string,
-    fontColor?: string
-    backgroundColor?: string
-    fontSize?: number
-    fontWeight?: number
+  buttons?: TextProps
+  options: string[] | {
+    fonts: TextProps[],
+    imgs?: ImageProps[]
   }
-  options: string[]
+  pointer?: ImageProps
   lockTurn: boolean
   setLockTurn(isLock: boolean): void
   afterTurn(index: number): void
 }
 const Wheel = ({
-  width,
+  width = 600,
   padding = 60,
   buttons,
   background,
   options,
+  pointer,
   lockTurn,
   setLockTurn,
   afterTurn,
 }: BaseWheelProps) => {
-  const prizesLength = options?.length
+  const turntableOptions =  Array.isArray(options) ? options : options?.fonts
+  const prizesLength = turntableOptions?.length
   const initRotate = 360 / prizesLength / 2
-  const [currentDegs, setCurrentDegs] = useState({
-    before: 0,
-    after: initRotate,
-  })
-  const [turnResIndex, setTurnResIndex] = useState(-1)
+  const turntable = useMemo(() => new CommonTurntable({width, options: turntableOptions}), [width])
   const panelRefs = useRef<any>(null)
-
+  const [resIndex, setResIndex] = useState(-1)
 
   const playTurn = () => {
       setLockTurn(true)
       if (!lockTurn) {
-        setTurnResIndex(-1)
-        const randomDegs = Math.round(Math.random() * 360) + (currentDegs?.after || 0)
-        // 要转多少度deg
-        const newRunDegs = randomDegs + 360 * 4
-        const resIndex = prizesLength - Math.round((randomDegs % 360) / (360 / prizesLength))
-        setCurrentDegs({
-          before: currentDegs?.after || 0,
-          after: newRunDegs,
-        })
-        const data = resIndex === prizesLength ? 0 : resIndex
-        // initAnimation.rotateZ(newRunDegs).step()
-        // setAnimationData(initAnimation.export())
+        setResIndex(-1)
+        const {data, newRunDegs} = turntable?.play()
         panelRefs.current.style.transform = `rotate(${newRunDegs}deg)`;
         const timer = setTimeout(() => {
-          setTurnResIndex(data)
           // setTurnIndex?.(data)
+          setResIndex(data)
           afterTurn(data)
           setLockTurn(false)
           clearTimeout(timer)
@@ -64,47 +66,21 @@ const Wheel = ({
   }
 
   const renderLists = () => {
-    const rotateDeg = 360 / prizesLength
-
     // console.error(rotateWidth, '----rotateWidth')
-    return options?.map((item, index) => {
-      const deg = -(rotateDeg / 2) + rotateDeg * index
-      // console.warn('index', index)
-      const isSelected = index === turnResIndex
-
-      const sectorStyle = {
-        transform: `rotate(${deg}deg)`,
-        left: `${width / 2}px`,
-        width: `${width / 2}px`,
-        height: `${width}px`,
-        borderRadius: `0px ${width / 2}px ${width / 2}px 0`,
-      }
-      const innerStyle = {
-        transform: `translateX(-${width / 2}px) rotate(${rotateDeg}deg)`,
-        height: `${width}px`,
-        width: `${width / 2}px`,
-        borderRadius: `${width / 2}px 0 0 ${width / 2}px`,
-        background: isSelected
-          ? `linear-gradient(${90 + (prizesLength - 2) * 17.5}deg, #FF5555 30.13%, #FFACAC 60.21%)`
-          : 'rgba(255, 255, 255, 0.3)',
-      }
-      const spanStyle = {
-        transform: `rotate(-${rotateDeg / 2}deg) translateX(${width / 4}px)`,
-        height: `${width}px`,
-        transformOrigin: 'right center',
-        display: 'flex',
-        justifyContent: 'center',
-      }
+    return turntableOptions?.map((item, index) => {
+      const {sectorStyle, innerStyle, spanStyle} = turntable?.getTurntableStyle(index, resIndex)
+      const isSelected = index === resIndex
       return (
         <div className="sector" key={index} style={sectorStyle}>
           <div className="sector-inner" style={innerStyle}>
             <div style={spanStyle}>
               <div
                 className={`content${item?.length > 9 ? ' max' : ''}`}
-                style={{color: isSelected ? '#fff' : '#CF5A59'}}
+                style={{color: isSelected ? '#fff' : item?.fontColor, fontSize: item?.fontSize, fontWeight: item?.fontWeight}}
               >
-                {item}
+                {item?.title || item}
               </div>
+              {!Array.isArray(options) && options?.imgs[index]?.src && <img src={options?.imgs[index]?.src} className='option-img-item' style={{top: options?.imgs[index]?.top, width: options?.imgs[index]?.width, height: options?.imgs[index]?.height}}/>}
             </div>
           </div>
         </div>
@@ -130,21 +106,21 @@ const Wheel = ({
         style={wrapperStyle}
       />
       <div
-        // animation={animationData}
         className="panel"
         ref={refs => panelRefs.current = refs}
-        key={options?.toString()}
         style={pannerStyle}>
         {renderLists()}
       </div>
-      <div className='base-btn-wrapper' onClick={playTurn} style={{fontSize: buttons?.fontSize, fontWeight: buttons?.fontWeight, background: buttons?.backgroundColor, color: buttons?.fontColor}}>
-        <div className="btn-bg-wrapper">
-        <div className="btn-bg" />
-        <div className='btn-title'> {buttons?.title}</div>
-      </div> 
-      </div>
-      {/* <image className="turntable-pointer" src={multi ? MULTI_POINTER : SINGLE_POINTER} /> */}
-      {/* <BaseButton disabled={lockTurn} onClick={playTurn} title={multi ? '准备' : '开转'} /> */}
+      {pointer && <img className="turntable-pointer" src={pointer?.src} style={{top: pointer?.top, width: pointer?.width, height: pointer?.height}}/>}
+      {buttons && 
+      (
+        <div className='base-btn-wrapper' onClick={playTurn} style={{fontSize: buttons?.fontSize, fontWeight: buttons?.fontWeight, background: buttons?.backgroundColor, color: buttons?.fontColor}}>
+          <div className="btn-bg-wrapper">
+            <div className="btn-bg" />
+            <div className='btn-title'> {buttons?.title}</div>
+          </div> 
+        </div>
+      )}
     </div>
   )
 }

@@ -104,3 +104,19 @@
     text-align: center;
     color: #E96E14;
   }
+
+  .turntable-pointer{
+    position: absolute;
+    width: 56px;
+    height: 62px;
+    top: -12px;
+    left: calc(50% - 28px);
+  }
+
+  .option-img-item{
+    position: absolute;
+    top: 60px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }

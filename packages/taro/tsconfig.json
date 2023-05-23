@@ -14,7 +14,7 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDirs": [".", "../common"],
     "jsx": "react-jsx",
     "allowJs": true,
     "resolveJsonModule": true,
