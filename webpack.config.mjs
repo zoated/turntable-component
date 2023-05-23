@@ -59,7 +59,6 @@ export default () => {
           use: [
             {
               loader: 'babel-loader',
-              options: { plugins: ['react-refresh/babel'] }
             }
           ]
         },
@@ -105,8 +104,7 @@ export default () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './website/index.html'
-      }),
-      new ReactRefreshWebpackPlugin({ overlay: false })
+      })
     ]
   };
 };
