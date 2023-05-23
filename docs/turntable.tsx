@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Wheel from '../packages/react/dist/index';
+import Wheel from '@turntable-component/react';
 import './index.css'
 
 const mock ={
@@ -58,6 +58,7 @@ const mock ={
     ]
 }
 
+const mockString = ['真心话', '真的话', '大冒险', '小冒险', '冒险家', '下水道']
 const Turntable = () => { 
     const [lockTurn, setLockTurn] = useState(false)
     const [width, setWidth] = useState(600)
@@ -83,7 +84,7 @@ const Turntable = () => {
             <text className='turntable-component-title'>
                 转盘组件
             </text>
-            <Wheel width={width} buttons={buttons} background="https://4tune-wemore.oss-cn-beijing.aliyuncs.com/turntable/assets/images/turntable-background.png" options={mock}
+            <Wheel width={width} buttons={buttons} background="https://4tune-wemore.oss-cn-beijing.aliyuncs.com/turntable/assets/images/turntable-background.png" options={mockString}
             pointer={{src: 'https://static.wemore.com/turntable/assets/images/single-pointer.png'}}
             lockTurn={lockTurn}
             setLockTurn={setLockTurn}

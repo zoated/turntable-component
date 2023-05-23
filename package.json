@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "webpack serve --mode=development",
+    "start": "npm -prefix ./docs run start",
     "build": "lerna run build"
   },
   "devDependencies": {

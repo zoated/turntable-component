@@ -6,7 +6,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 const target = 'browserslist:browserslist config, not maintained node versions';
 export default () => {
   return {
-    entry: './website/root.tsx',
+    entry: './root.tsx',
     target,
     output: {
       clean: true,
@@ -102,7 +102,7 @@ export default () => {
 
     plugins: [
       new HtmlWebpackPlugin({
-        template: './website/index.html'
+        template: './index.html'
       }),
       new ReactRefreshWebpackPlugin({ overlay: false })
     ]
