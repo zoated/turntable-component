@@ -11,6 +11,10 @@
 - component-page github page 托管的组件demo网站分支
 ```
 
+## demo演示网站
+
+[https://zoated.github.io/turntable-component/](https://zoated.github.io/turntable-component/)
+
 ## 组件详情
 
 <div align="center">
