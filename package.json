@@ -5,8 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "webpack serve --mode=development",
-    "build": "lerna run build"
+    "start": "webpack serve --mode=development"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",

@@ -43,9 +43,10 @@ const Wheel = ({
   afterTurn,
 }: BaseWheelProps) => {
   const turntableOptions =  Array.isArray(options) ? options : options?.fonts
+  const stringOptions = Array.isArray(options) ? options?.toString() : options?.fonts?.map(item => item?.title)?.toString()
   const prizesLength = turntableOptions?.length
   const initRotate = 360 / prizesLength / 2
-  const turntable = useMemo(() => new CommonTurntable({width, options: turntableOptions}), [width])
+  const turntable = useMemo(() => new CommonTurntable({width, options: turntableOptions}), [width, stringOptions])
   const panelRefs = useRef<any>(null)
   const [resIndex, setResIndex] = useState(-1)
 

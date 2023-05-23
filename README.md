@@ -1,3 +1,18 @@
+## 开始
+
+```md
+- yarn start 本地组件demo网站
+- packages下不同平台的组件打包后 到对应的文件下npm publish发布
+```
+## 分支
+
+```md
+- main 主分支
+- component-page github page 托管的组件demo网站分支
+```
+
+## 组件详情
+
 <div align="center">
   <h1>turntable-component 转盘组件</h1>
   <p>一个跨平台（React, Taro）转盘组件</p>

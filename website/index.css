@@ -52,3 +52,22 @@
     align-items: center;
     margin: 12px;
 }
+
+.table-params-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin: 24px 60px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    font-size: 16px;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #c3c2c2;
+  }
